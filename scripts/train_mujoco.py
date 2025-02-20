@@ -30,7 +30,7 @@ from relax.utils.log_diff import log_git_details
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--alg", type=str, default="sdac")
-    parser.add_argument("--env", type=str, default="Ant-v4")
+    parser.add_argument("--env", type=str, default="pusht-v0")
     parser.add_argument("--suffix", type=str, default="test_use_atp1")
     parser.add_argument("--num_vec_envs", type=int, default=5)
     parser.add_argument("--hidden_num", type=int, default=3)
@@ -63,9 +63,9 @@ if __name__ == "__main__":
     init_network_key = jax.random.key(init_network_seed)
     train_key = jax.random.key(train_seed)
     del init_network_seed, train_seed
-
     if args.num_vec_envs > 0:
-        env, obs_dim, act_dim = create_vector_env(args.env, args.num_vec_envs, env_seed, env_action_seed, mode="futex")
+        env, obs_dim, act_dim = create_vector_env(
+            args.env, args.num_vec_envs, env_seed, env_action_seed, mode='futex')
     else:
         env, obs_dim, act_dim = create_env(args.env, env_seed, env_action_seed)
     eval_env = None
@@ -142,6 +142,7 @@ if __name__ == "__main__":
         start_step=args.start_step,
         total_step=args.total_step,
         sample_per_iteration=1,
+        update_per_iteration=args.num_vec_envs,
         evaluate_env=eval_env,
         save_policy_every=int(args.total_step / 40),
         warmup_with="random",

@@ -1,9 +1,8 @@
 import numpy as np
+from relax.env.pusht import *
 from gymnasium import Env, Wrapper, make
 from gymnasium.spaces import Box
-
 from relax.env.vector import VectorEnv, SerialVectorEnv, GymProcessVectorEnv, PipeProcessVectorEnv, SpinlockProcessVectorEnv, FutexProcessVectorEnv
-
 class RelaxWrapper(Wrapper):
     def __init__(self, env: Env, action_seed: int = 0):
         super().__init__(env)
